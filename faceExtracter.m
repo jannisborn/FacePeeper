@@ -17,7 +17,7 @@ function out = FaceExtracter(folder)
         % Extract each face and save separately
         for k = 1:size(fP,1)
             Face = img(fP(k,2):fP(k,2)+fP(k,4),fP(k,1):fP(k,1)+fP(k,3),:);
-            Face = imresize(Face,[100 100]);
+            Face = imresize(Face,[112 112]);
             imwrite(Face,[newFolder,'\',imNames(imCounter).name,'_',num2str(k),'.jpg'])
         end
     end
