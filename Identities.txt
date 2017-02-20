@@ -1,4 +1,4 @@
-﻿100: Aaron Eckhart
+100: Aaron Eckhart
 101: Adrien Brody
 102: Jannis Born
 103: Alan Rickman
@@ -380,12 +380,12 @@
 479: Tatyana M. Ali
 480: Taylor Lautner
 481: Tempestt Bledsoe 
-482: 
-483: Tracey E. Bregman
-484: Vanessa Marcil
-485: Wendie Malick
-486: Yasmine Bleeth
-487: Zooey Deschanel
+482: Tracey E. Bregman
+483: Vanessa Marcil
+484: Wendie Malick
+485: Yasmine Bleeth
+486: Zooey Deschanel
+487: 
 488:
 489:
 490:

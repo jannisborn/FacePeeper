@@ -6,11 +6,10 @@ function out = FaceExtracter(folder)
     FDetect = vision.CascadeObjectDetector;
     newFolder = [folder,'_Faces'];
     mkdir(newFolder);
-    imNames = dir([folder,'\*.jpg']);
-    
+    imNames = dir([folder,'/*.jpg']);
+    saver = 0;
     % Go through all jpgs in folderr
     for imCounter = 1:length(imNames)
-        
         img = imread(imNames(imCounter).name);
         fP = step(FDetect,img); %facePositions
         
@@ -18,6 +17,6 @@ function out = FaceExtracter(folder)
         for k = 1:size(fP,1)
             Face = img(fP(k,2):fP(k,2)+fP(k,4),fP(k,1):fP(k,1)+fP(k,3),:);
             Face = imresize(Face,[112 112]);
-            imwrite(Face,[newFolder,'\',imNames(imCounter).name,'_',num2str(k),'.jpg'])
+            imwrite(Face,[newFolder,'/102_',imNames(imCounter).name,'_',num2str(k),'.jpg'])
         end
     end
