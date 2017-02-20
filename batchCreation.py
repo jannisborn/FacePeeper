@@ -26,7 +26,12 @@ def createBatch(batchSize):
 		print(counter)
 		images[counter,:,:,:] = misc.imread('./Data/'+filenames[self.imgInd])
 		labels[counter] = int(self.filenames[self.imgInd][:3])
+
+	# The images have been normalized before saving. However misc.imsave scales everything to [0,255]
+	# The range of zscores after normalization was suprisingly close to [-2,2]. We therefore rescale [0,255] --> [-2,2]
+	images = (4*images)/255
+	images -= 2
+	
 	return images,labels
 
-	
-# imgs, labels = createBatch(20)
+

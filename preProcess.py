@@ -1,4 +1,4 @@
-def preProcess(batch,mu=0,sigma=0.1):
+def preProcess(batch,mu=0,sigma=0.01):
 
     '''
     This preprocessing function is inspired by: Krizhevsky et al. (2012): ImageNet 
@@ -19,6 +19,7 @@ def preProcess(batch,mu=0,sigma=0.1):
     import random
     from PIL import Image
     from scipy import misc
+    import numpy as np
 
     batchSize = batch.shape[0]
     batchP = np.empty([batchSize,112,112,3],dtype=np.uint8)
@@ -32,8 +33,8 @@ def preProcess(batch,mu=0,sigma=0.1):
         for ind,img in enumerate(batch):
 
             # RGB augmentation via PCA (increase variance, tune luminance+color invariance)
-            #noise = np.dot(eigenvectors,augmentation[ind])
-            #img = img + noise # Add color perturbation to image
+            noise = np.dot(eigenvectors,augmentation[ind])
+            img = img + noise # Add color perturbation to image
 
 
 
@@ -43,5 +44,6 @@ def preProcess(batch,mu=0,sigma=0.1):
 
             # Rotate randomly 
             dg = random.randint(0,20) if random.randint(0,1) else -random.randint(0,20)
-            batchP[ind] = np.array(Image.Image.rotate(Image.fromarray(img.eval()),dg))   
+            batchP[ind] = misc.imrotate(img,dg)   
+            
     return tf.convert_to_tensor(batchP)

@@ -42,7 +42,7 @@ imgs /= varIm
 print(time.time()-start)
 print('Normalization done')
 
-im1 = imgs[1,:,:,:]
+"""im1 = imgs[1,:,:,:]
 misc.imsave('aaa.jpg',im1)
 im2 = misc.imread('aaa.jpg')
 print(np.amax(im1),np.amin(im1),np.amax(im2),np.amin(im2))
@@ -58,7 +58,7 @@ print(np.amax(im3),np.amin(im3))
 print(im1[60:62,89,:],im3[60:62,89,:])
 
 
-print((im1==im2).all())
+print((im1==im2).all())"""
 
 def compute_PCA(images):
 	# Reshape Images to make each pixel a single datapoint in the RGB space
@@ -80,24 +80,13 @@ def splitTrainTest(images):
 		os.makedirs('TestData')
 
 	shuffler = np.random.choice([0,1],images.shape[0],p = [0.85,0.15]) # Randomize for each image whether it is train(0) or test(1)
-	counts = np.unique(shuffler,return_counts = True)
-	trainData = np.empty([counts[1][0],112,112,3])
-	testData = np.empty([counts[1][1],112,112,3])
-	countTrain = 0
-	countTest = 0
-
 	shuffler = shuffler.astype(bool)
+
 	for ind,img in enumerate(images):
 		if shuffler[ind]:
-			testData[countTest,:,:,:] = img
-			#misc.imsave('C:/Users/Jannis/Dropbox/GitHub/FacePeeper/TestData/'+filenames[ind],img)
+			misc.imsave('C:/Users/Jannis/Dropbox/GitHub/FacePeeper/TestData/'+filenames[ind],img)
 		else:
-			trainData[countTrain,:,:,:] = img
-			#misc.imsave('C:/Users/Jannis/Dropbox/GitHub/FacePeeper/TrainData/'+filenames[ind],img)
-
-	np.savetxt('TrainData.txt',trainData)
-	np.savetxt('TestData.txt',testData)
-
+			misc.imsave('C:/Users/Jannis/Dropbox/GitHub/FacePeeper/TrainData/'+filenames[ind],img)
 
 
 

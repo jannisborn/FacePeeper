@@ -11,6 +11,10 @@ def GUI_prep(img):
 			Should all be displayed to user and let him choose one.
 	 '''
 
+	if not isinstance(img,(np.ndarray,np.generic)):
+		print('Please insert a numpy array.')
+		return None
+
 	# If image is greyscale, fill the channels up
 	if len(img.shape) == 2:
 		imgNew = np.zeros((a.shape[0],a.shape[1],3))
