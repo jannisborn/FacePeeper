@@ -1,9 +1,12 @@
 # Ideas. No guarantee for work
 
+# Add this to the import section on top
+import os
+
 
 # Add this after the tf.placeholder:
-self.filenames = tf.train.match_filenames_once("./images/*.jpg")
-self.numImgs = len(filename_queue)
+self.filenames = os.listdir("./TrainingImages/")
+self.numImgs = len(self.filenames)
 
 
 

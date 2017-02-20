@@ -7,7 +7,9 @@ numImgs = 50312
 imgs = np.empty([numImgs,112,112,3])
 for ind, filename in enumerate(glob.glob('C:/Users/Jannis/Dropbox/GitHub/FacePeeper/Data/*.jpg')):
 #for ind, filename in enumerate(glob.glob('/Users/jannis/Dropbox/github/FacePeeper/Data/*.jpg')):
-	imgs[ind,:,:,:] = misc.imread(filename) 
+	img = misc.imread(filename) 
+	img2 = img * (1/np.amax(img)) # Normalize all images
+	imgs[ind,:,:,:] = img2
 print('Images stored')
 
 def compute_PCA(images):
@@ -19,8 +21,8 @@ def compute_PCA(images):
 	U, S, V = np.linalg.svd(cov)
 	eigenvalues = np.sqrt(S)
 
-	np.savetxt('eigenvalues',eigenvalues)
-	np.savetxt('eigenvectors', U)
+	np.savetxt('eigenvalues.txt',eigenvalues)
+	np.savetxt('eigenvectors.txt', U)
 
 compute_PCA(imgs)
 
