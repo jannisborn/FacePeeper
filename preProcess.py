@@ -44,6 +44,6 @@ def preProcess(batch,mu=0,sigma=0.01):
 
             # Rotate randomly 
             dg = random.randint(0,20) if random.randint(0,1) else -random.randint(0,20)
-            batchP[ind] = misc.imrotate(img,dg)   
+            batchP[ind] = misc.imrotate(img.eval(),dg)   
             
     return tf.convert_to_tensor(batchP)
