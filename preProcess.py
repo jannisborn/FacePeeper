@@ -32,14 +32,14 @@ def preProcess(batch,mu=0,sigma=0.1):
         for ind,img in enumerate(batch):
 
             # RGB augmentation via PCA (increase variance, tune luminance+color invariance)
-            noise = np.dot(eigenvectors,augmentation[ind])
-            img = img + noise # Add color perturbation to image
+            #noise = np.dot(eigenvectors,augmentation[ind])
+            #img = img + noise # Add color perturbation to image
 
 
 
             #Flip Veritcally?
-            #img = tf.random_flip_left_right(tf.convert_to_tensor(img))
-            img = tf.convert_to_tensor(img)
+            img = tf.random_flip_left_right(tf.convert_to_tensor(img))
+            #img = tf.convert_to_tensor(img)
 
             # Rotate randomly 
             dg = random.randint(0,20) if random.randint(0,1) else -random.randint(0,20)
