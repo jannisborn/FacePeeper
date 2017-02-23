@@ -289,13 +289,11 @@ def predict_identity(img):
         It returns the five most likely labels for the inserted image
     '''
 
+def retrain(img,label):
+    '''
+    In case the first guess of the network was wrong and the user returned the true label, 
+        this function can be used to retrain the network on the uploaded image with the 
+        correct label.
+    '''
 
-import tensorflow as tf
-import numpy as np
 
-
-with tf.Session() as session:
-
-    # We restore the trained network.
-    saver.restore(session, "./resnet.chkp-" + str(trainingSteps-1))    
-    
