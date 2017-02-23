@@ -230,10 +230,9 @@ with tf.Session() as session:
     
     for epoch in range(epochs):
         
-        #epochInds = np.random.permutation(self.numTrainImgs)  
+ 
         epochInds = np.random.permutation(celeb.numTrainImgs)       
 
-        #for batchNumber in range(self.numTrainImgs//batchSize):
         for batchNumber in range(celeb.numTrainImgs//batchSize):
             print('epoch: ', epoch, 'batch_nr: ', batchNumber)
 
