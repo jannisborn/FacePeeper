@@ -63,7 +63,7 @@ celeb = CELEBRITIES()
 
 EPSILON = 1e-3
 
-def augment(batch,mu=0,sigma=0.01):
+def augment(batch,mu=0,sigma=0.1):
         '''
         This augmentation function is inspired by: Krizhevsky et al. (2012): ImageNet 
             Classification with Deep Convolutional Neural Networks
@@ -100,7 +100,7 @@ def augment(batch,mu=0,sigma=0.01):
             img = np.fliplr(img) if np.random.randint(2) else img
 
             # Rotate randomly 
-            dg = random.randint(0,20) if random.randint(2) else -random.randint(0,20)
+            dg = random.randint(0,15) if random.randint(2) else -random.randint(0,15)
             batchP[ind] = misc.imrotate(img, dg) 
                 
         return batchP

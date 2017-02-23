@@ -9,7 +9,7 @@ root = 'C:/Users/Jannis/Dropbox/GitHub/FacePeeper/'
 
 
 
-def augment(batch,mu=0,sigma=0.01):
+def augment(batch,mu=0,sigma=0.1):
         '''
         This augmentation function is inspired by: Krizhevsky et al. (2012): ImageNet 
             Classification with Deep Convolutional Neural Networks
@@ -40,13 +40,14 @@ def augment(batch,mu=0,sigma=0.01):
         for ind,img in enumerate(batch):
             # RGB augmentation via PCA (increase variance, tune luminance+color invariance)
             noise = np.dot(eigenvectors,augmentation[ind])
+            print(noise.shape,noise)
             img = img + noise # Add color perturbation to image
 
             # Flip horizontally (eventually)
             img = np.fliplr(img) if np.random.randint(2) else img
 
             # Rotate randomly 
-            dg = np.random.randint(0,20) if np.random.randint(0,1) else -random.randint(0,20)
+            dg = np.random.randint(0,20) if np.random.randint(2) else -np.random.randint(0,20)
             batchP[ind] = misc.imrotate(img, dg) 
                 
         return batchP
@@ -64,4 +65,4 @@ imgs[3] = misc.imread(path+'d.jpg')
 imgs = augment(imgs)
 
 for ind,img in enumerate(imgs):
-    misc.imsave(path+ind+'.jpg',img)
+    misc.imsave(path+str(ind)+'.jpg',img)
