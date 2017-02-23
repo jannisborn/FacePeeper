@@ -1,3 +1,14 @@
+import numpy as np
+import os
+from scipy import misc
+
+root = 'C:/Users/Jannis/Dropbox/GitHub/FacePeeper/'
+
+
+
+
+
+
 def augment(batch,mu=0,sigma=0.01):
         '''
         This augmentation function is inspired by: Krizhevsky et al. (2012): ImageNet 
@@ -18,8 +29,8 @@ def augment(batch,mu=0,sigma=0.01):
         batchP = np.empty([batchSize,112,112,3],dtype=np.uint8)
 
         # Restore PCA results that has been performed beforehand on entire dataset
-        eigenvalues = np.loadtxt('eigenvalues.txt')
-        eigenvectors = np.loadtxt('eigenvectors.txt')
+        eigenvalues = np.loadtxt(root+'eigenvalues.txt')
+        eigenvectors = np.loadtxt(root+'eigenvectors.txt')
         
         # generate stochastic noise (alpha samples)
         samples = np.random.normal(mu,sigma,[batchSize,3])
@@ -39,3 +50,18 @@ def augment(batch,mu=0,sigma=0.01):
             batchP[ind] = misc.imrotate(img, dg) 
                 
         return batchP
+
+
+
+path = root+'Plots/normPlot/'
+imgs = np.empty([4,112,112,3])
+imgs[0] = misc.imread(path+'a.jpg')
+imgs[1] = misc.imread(path+'b.jpg')
+imgs[2] = misc.imread(path+'c.jpg')
+imgs[3] = misc.imread(path+'d.jpg')
+
+
+imgs = augment(imgs)
+
+for ind,img in enumerate(imgs):
+    misc.imsave(path+ind+'.jpg',img)
