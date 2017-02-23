@@ -7,6 +7,7 @@ from PIL import Image
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import time
 
 
 #dir_train = r"C:\Users\mpariani\Documents\UnivOsnabrueck\Third_Semester\ANNs_TensorFlow\TrainData/"
@@ -235,13 +236,13 @@ with tf.Session() as session:
 
         for batchNumber in range(celeb.numTrainImgs//batchSize):
             print('epoch: ', epoch, 'batch_nr: ', batchNumber)
-
+            s = time.time()
             batchInds = epochInds[(batchNumber*batchSize):(batchNumber+1)*batchSize]
 
             trainingImages, trainingLabels = celeb.createBatch(batchInds, 'trainData')
             # Data augmentation
             trainingImages = augment(trainingImages)
-
+            print(s-time.time())
             stLR = 0.1
             #learningRate = tf.train.exponential_decay(starterLearningRate, globalStep, 10e3, 0.96)
 
