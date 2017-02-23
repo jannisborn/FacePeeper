@@ -11,6 +11,8 @@ def preProcess(batch,mu=0,sigma=0.01):
         The optional parameters mu and sigma define the average and the spread in the noise added
         to each RGB channel 
         '''
+
+        
         batchSize = batch.shape[0]
         batchP = np.empty([batchSize,112,112,3],dtype=np.uint8)
         # Restore PCA results that has been performed beforehand on entire dataset
