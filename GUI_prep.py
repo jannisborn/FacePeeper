@@ -1,6 +1,3 @@
-import numpy as np
-import cv2
-
 def GUI_prep(img):
 	'''
 	This function receives an image uploaded by an user (as np array) and detects the face(s) in the net. 
@@ -10,7 +7,11 @@ def GUI_prep(img):
 		3. Multiple faces found: Function returns all n faces in format: np.shape(img) = (n,112,112,3)
 			Should all be displayed to user and let him choose one.
 	 '''
+	
+	import numpy as np
+	import cv2
 
+	# Error Handling
 	if not isinstance(img,(np.ndarray,np.generic)):
 		print('Please insert a numpy array.')
 		return None

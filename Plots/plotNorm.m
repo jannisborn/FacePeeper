@@ -4,7 +4,8 @@
 clc;
 clear all;
 close all;
-path = '/Users/jannis/Desktop/Plots';
+mainPath = '/Users/jannis/Dropbox/GitHub/FacePeeper/Plots';
+path = [mainPath,'/normPlot'];
 cd(path)
 
 filenames = dir('*.jpg');
@@ -12,7 +13,7 @@ f = figure('units','normalized','outerposition',[0 0 1 1]);
 
 for k = 1:length(filenames)
     h = subplot(2,4,k);
-    p = get(h,'pos')
+    p = get(h,'pos');
     img = imread([path,'/',filenames(k).name]);
     imshow(img);
     if k == 1
@@ -25,6 +26,8 @@ for k = 1:length(filenames)
     end
         
 end
+
+saveas(f,[mainPath,'/norm.eps']);
 
 
     

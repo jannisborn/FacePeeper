@@ -270,7 +270,7 @@ with tf.Session() as session:
     saver.restore(session, "./resnet.chkp-" + str(trainingSteps-1))    
     
     accuracies = []
-    for r in range(self.numTestImgs//batchSize:
+    for r in range(self.numTestImgs//batchSize):
 
         batchInds = testInds[(r*batchSize):(r+1)*batchSize]
         testImages, testLabels = celeb.createBatch(batchInds, 'testData')
@@ -278,3 +278,24 @@ with tf.Session() as session:
         accuracies.append(accur)
 
     print(np.mean(accuracies))
+
+
+def predict_identity(img):
+    '''
+    This function receives an image that has been initially uploaded by the user on the website.
+        This image was face cropped by GUI_prep.py and subsequently confirmed by the user as the 
+        face he wants the algorithm to process.
+
+        It returns the five most likely labels for the inserted image
+    '''
+
+
+import tensorflow as tf
+import numpy as np
+
+
+with tf.Session() as session:
+
+    # We restore the trained network.
+    saver.restore(session, "./resnet.chkp-" + str(trainingSteps-1))    
+    
