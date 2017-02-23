@@ -30,9 +30,9 @@ class CELEBRITIES():
         Images and labels are returned as np.arrays
         '''
         
-       batchSize = len(indices)
+        batchSize = len(indices)
 
-       # Define dataset (train/test), error handling
+        # Define dataset (train/test), error handling
         if batchType == 'trainData':
             path = dir_train
             files = self.trainFiles
@@ -230,11 +230,12 @@ with tf.Session() as session:
     
     for epoch in range(epochs):
         
-        print('epoch: ', epoch)
-        epochInds = np.random.permutation(celeb.numTrainImgs)        
+        #epochInds = np.random.permutation(self.numTrainImgs)  
+        epochInds = np.random.permutation(celeb.numTrainImgs)       
 
+        #for batchNumber in range(self.numTrainImgs//batchSize):
         for batchNumber in range(celeb.numTrainImgs//batchSize):
-            print('batch_nr: ', batchNumber)
+            print('epoch: ', epoch, 'batch_nr: ', batchNumber)
 
             batchInds = epochInds[(batchNumber*batchSize):(batchNumber+1)*batchSize]
 
@@ -242,27 +243,23 @@ with tf.Session() as session:
             # Data augmentation
             trainingImages = augment(trainingImages)
 
-            stLR = 0.0000001
+            stLR = 0.1
             #learningRate = tf.train.exponential_decay(starterLearningRate, globalStep, 10e3, 0.96)
 
-            #crossEntr[step], accur[step], _ = session.run([crossEntropy, accuracy, trainStep],
-            #                        feed_dict = {images: trainingImages, desired: trainingLabels, lr: stLR})
+            crossEntr[step], accur[step], _ = session.run([crossEntropy, accuracy, trainStep],
+                                    feed_dict = {images: trainingImages, desired: trainingLabels, lr: stLR})
 
-            #print('Accuracy: ', accur[step])
-            prediction = tf.argmax(tf.nn.softmax(logits), 1)
-            des = desired
-            best, des = session.run([prediction, des], feed_dict = {images: trainingImages, desired: trainingLabels, lr: stLR})
-            print('Best prediction: ', best, ' - Desired: ', des)
+            print('Accuracy: ', accur[step])
+            #prediction = tf.argmax(tf.nn.softmax(logits), 1)
+            #des = desired
+            #best, des = session.run([prediction, des], feed_dict = {images: trainingImages, desired: trainingLabels, lr: stLR})
+            #print('Best prediction: ', best, ' - Desired: ', des)
 
-            if (step % 25 == 0 and step != 0) or step == trainingSteps-1:
+            if (step % 250 == 0 and step != 0) or step == trainingSteps-1:
                 saver.save(session, "./resnet.chkp", step)
                 
             step += 1
 
-            #f = plt.figure()
-            #x1 = np.linspace(25,epochs,epochs-25)
-            #plt.plot(x1,accur[25:])
-            #f.savefig('CELEBRITIES.png')
  
 with tf.Session() as session:
     saver = tf.train.Saver()
@@ -280,20 +277,17 @@ with tf.Session() as session:
     print(np.mean(accuracies))
 
 
-def predict_identity(img):
+#def predict_identity(img):
     '''
     This function receives an image that has been initially uploaded by the user on the website.
         This image was face cropped by GUI_prep.py and subsequently confirmed by the user as the 
         face he wants the algorithm to process.
-
         It returns the five most likely labels for the inserted image
     '''
 
-def retrain(img,label):
+#def retrain(img,label):
     '''
     In case the first guess of the network was wrong and the user returned the true label, 
         this function can be used to retrain the network on the uploaded image with the 
         correct label.
     '''
-
-
