@@ -46,7 +46,7 @@ def augment(batch,mu=0,sigma=0.01):
             img = np.fliplr(img) if np.random.randint(2) else img
 
             # Rotate randomly 
-            dg = random.randint(0,20) if random.randint(0,1) else -random.randint(0,20)
+            dg = np.random.randint(0,20) if np.random.randint(0,1) else -random.randint(0,20)
             batchP[ind] = misc.imrotate(img, dg) 
                 
         return batchP
