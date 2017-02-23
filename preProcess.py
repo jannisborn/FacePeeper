@@ -12,7 +12,7 @@ def preProcess(batch,mu=0,sigma=0.01):
         to each RGB channel 
         '''
 
-        
+
         batchSize = batch.shape[0]
         batchP = np.empty([batchSize,112,112,3],dtype=np.uint8)
         # Restore PCA results that has been performed beforehand on entire dataset
@@ -28,7 +28,7 @@ def preProcess(batch,mu=0,sigma=0.01):
             noise = np.dot(eigenvectors,augmentation[ind])
             img = img + noise # Add color perturbation to image
 
-            #Flip horizontally
+            # Flip horizontally (eventually)
             img = np.fliplr(img) if np.random.randint(2) else img
 
             # Rotate randomly 
