@@ -87,6 +87,8 @@ def splitTrainTest(images):
 			misc.imsave('C:/Users/Jannis/Dropbox/GitHub/FacePeeper/TestData/'+filenames[ind],img)
 		else:
 			misc.imsave('C:/Users/Jannis/Dropbox/GitHub/FacePeeper/TrainData/'+filenames[ind],img)
+		if ind % 2000 == 0:
+			print(ind)
 
 
 
