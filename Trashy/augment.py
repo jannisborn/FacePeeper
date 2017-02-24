@@ -9,7 +9,7 @@ root = 'C:/Users/Jannis/Dropbox/GitHub/FacePeeper/'
 
 
 
-def augment(batch,mu=0,sigma=0.1):
+def augment(batch,mu=0,sigma=0.2):
         '''
         This augmentation function is inspired by: Krizhevsky et al. (2012): ImageNet 
             Classification with Deep Convolutional Neural Networks
@@ -24,7 +24,6 @@ def augment(batch,mu=0,sigma=0.1):
         
 
         batchSize = batch.shape[0]
-
         # Allocate array for augmented images 
         batchP = np.empty([batchSize,112,112,3],dtype=np.uint8)
 
@@ -34,8 +33,8 @@ def augment(batch,mu=0,sigma=0.1):
         
         # generate stochastic noise (alpha samples)
         samples = np.random.normal(mu,sigma,[batchSize,3])
-        augmentation = samples * eigenvalues # scale by eigenvalue
-        
+        augmentation = samples * eigenvalues # scale by eigenvalue        
+
         # augment every image
         for ind,img in enumerate(batch):
             # RGB augmentation via PCA (increase variance, tune luminance+color invariance)
@@ -47,7 +46,7 @@ def augment(batch,mu=0,sigma=0.1):
             img = np.fliplr(img) if np.random.randint(2) else img
 
             # Rotate randomly 
-            dg = np.random.randint(0,20) if np.random.randint(2) else -np.random.randint(0,20)
+            dg = np.random.randint(0,15) if np.random.randint(2) else -np.random.randint(0,15)
             batchP[ind] = misc.imrotate(img, dg) 
                 
         return batchP
@@ -65,4 +64,4 @@ imgs[3] = misc.imread(path+'d.jpg')
 imgs = augment(imgs)
 
 for ind,img in enumerate(imgs):
-    misc.imsave(path+str(ind)+'.jpg',img)
+    misc.imsave(path+chr(69+ind)+'.jpg',img)

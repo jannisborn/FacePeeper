@@ -64,7 +64,7 @@ celeb = CELEBRITIES()
 
 EPSILON = 1e-3
 
-def augment(batch,mu=0,sigma=0.1):
+def augment(batch,mu=0,sigma=0.2):
         '''
         This augmentation function is inspired by: Krizhevsky et al. (2012): ImageNet 
             Classification with Deep Convolutional Neural Networks
