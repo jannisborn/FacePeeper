@@ -19,6 +19,10 @@ print('Images stored')
 
 start = time.time()
 
+
+#### BEGIN NORMALIZATION
+# mean and std are computed for each pixel one after another (instead of X -= np.mean(X,axis=0)) for computational purposes  
+#	Otherwise we get a memory error, since np.std is memory intensive
 # Demeaning
 avgIm = np.empty([112,112,3])
 for r in range(112):
@@ -30,7 +34,6 @@ print(time.time()-start)
 print('Demeaning done')
 start = time.time()
 
-
 # Reduce Variance
 varIm = np.empty([112,112,3])
 for r in range(112):
@@ -38,6 +41,8 @@ for r in range(112):
 		for ch in range(3):
 			varIm[r,c,ch] = np.std(imgs[:,r,c,ch])
 imgs /= varIm
+### END NORMALIZATION
+
 
 print(time.time()-start)
 print('Normalization done')
