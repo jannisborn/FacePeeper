@@ -11,5 +11,5 @@ import scrapy
 class Celebrity(scrapy.Item):
     # define the fields for your item here like:
     name = scrapy.Field()
-    image_urls = scrapy.Field()
+    img_urls = scrapy.Field()
     images = scrapy.Field()

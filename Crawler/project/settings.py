@@ -47,14 +47,12 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-#    'project.middlewares.MyCustomSpiderMiddleware': 543,
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 }
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-#    'project.middlewares.MyCustomDownloaderMiddleware': 543,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
@@ -69,11 +67,11 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'project.pipelines.ProjectPipeline': 300,
+    'project.pipelines.ProjectPipeline': 300,
     'scrapy.pipelines.images.ImagesPipeline': 1
 }
 
-IMAGES_STORE = '/Volumes/Library/Users/jsteinmann/Documents/tfproject/project/images_store'
+IMAGES_STORE = '/Users/areer/Desktop/project/images_store'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -101,3 +99,9 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 SPLASH_URL = 'http://192.168.99.100:8050'
 
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+
+LOG_LEVEL = 'DEBUG'
+DUPEFILTER_DEBUG = True
+DEPTH_STATS_VERBOSE = True
+SCHEDULER_DEBUG = True
+
