@@ -5,7 +5,7 @@ import os
 import time
 
 # Read in Images
-numImgs = 1673
+numImgs = 5
 imgs = np.empty([numImgs,112,112,3])
 filenames = os.listdir("C:/Users/Jannis/Dropbox/GitHub/FacePeeper/Data/")
 
@@ -40,15 +40,12 @@ for r in range(112):
 	for c in range(112):
 		for ch in range(3):
 			varIm[r,c,ch] = np.std(imgs[:,r,c,ch])
-print(varIm)
 imgs /= varIm
 ### END NORMALIZATION
 
 
 print(time.time()-start)
 print('Normalization done')
-
-print(imgs[21])
 
 """im1 = imgs[1,:,:,:]
 misc.imsave('aaa.jpg',im1)
