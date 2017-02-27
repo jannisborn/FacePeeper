@@ -27,7 +27,6 @@ def genderization(img):
 
 
 	# Initialize network
-
 	# Network expects a batch.
 	img = img.reshape([1,112,112,3])
 
