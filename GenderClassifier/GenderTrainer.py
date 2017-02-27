@@ -1,39 +1,42 @@
 
-
 # Train Gender task
 # This file we used to train our network on the gender task
 
+# Switch this off if you don't want the images to be augmented before feeded into the net
+augmentation = True
+
+# Execute this file while being in the GenderClassifier directory (not from parent directory e.g.)
+
+# Import modules
 import tensorflow as tf
+from tensorflow.core.protobuf import saver_pb2
 import numpy as np
-import os
-import sys
 
-# Specify path to the main directory of the FacePeeper folder
-path = '~/documents/FacePeeper/'
-
-# Import network class
-sys.path.insert(0,path)
+# Import the network class from .py file in parent directory
+import os,sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from residualCNN import RESNET
 
-# Specify task and build network
-net = RESNET(task='GENDER')
+# Initialize net
+net = RESNET(task='GENDER',direc='below')
 net.network()
 
-netName = 'GenderClassifier/WithAugmentation/'
-if not os.path.exists('./'+netName):
-    os.makedirs('./'+netName)
+
 
 # Hyperparameter
-epochs = 1000
+epochs = 500
 batchSize = 50
-batchesPerEpoch = gen.numTrainImgs // batchSize
-
+batchesPerEpoch = net.numTrainImgs // batchSize
 
 # Learning Rate Parameter
+# We implement a feedback-based decaying learning that starts with 0.01 and decays whenever learning plateaus
+# over the last 25 epochs. A plateau is initially defined as an improvement of less then 0.5% over 25 epochs 
+# (hence threshold = 0.005) but decays over time as well.
 learningRate = 0.01
 threshold = 0.005
 nextTest = 25
 step = 25
+
 
 # Memory Allocation
 accur = np.zeros([epochs,batchesPerEpoch]) # batch-wise
@@ -41,41 +44,40 @@ ACCS = np.empty([epochs,2]) # First column: TrainData, second: TestData
 
 with tf.Session() as session:
     
-    saver = tf.train.Saver(write_version = saver_pb2.SaverDef.V1)
-    saver.restore(session, "./GenderClasser/weights.ckpt-10")
-    #session.run(tf.global_variables_initializer())
     saver = tf.train.Saver(tf.trainable_variables(), write_version = saver_pb2.SaverDef.V1)
-    for epoch in range(11,epochs):
+    session.run(tf.global_variables_initializer())
 
-        epochInds = np.random.permutation(gen.numTrainImgs)
+    for epoch in range(epochs):
+
+        # Randomize order of training data at beginning of every epoch
+        epochInds = np.random.permutation(net.numTrainImgs)
+
+        p = np.empty(batchesPerEpoch)
 
         for batchN in range(batchesPerEpoch):
 
             batchInds = epochInds[(batchN*batchSize):(batchN+1)*batchSize]
-            trainIms, trainLabs = gen.createBatch(batchInds, 'trainData')
+            trainIms, trainLabs = net.createBatch(batchInds, 'TrainData')
 
-            trainIms = gen.augment(trainIms)
+            trainIms = net.augment(trainIms) if augmentation else trainIms
 
-            _,accur[epoch,batchN] = session.run([train_step,accuracy],feed_dict={x: trainIms, 
-                y_: trainLabs, keep_prob: 0.5, lr:learningRate})
+            _,p[batchN] = session.run([net.train_step,net.accuracy],feed_dict={net.x: trainIms, 
+                net.y_: trainLabs, net.keep_prob: 0.5, net.lr:learningRate})
             
 
-
-        ACCS[epoch,0] = np.mean(accur[epoch,:])
+        ACCS[epoch,0] = np.mean(p[batchN])
         print('Training acuracy after epoch: ', epoch+1, ' = ' , ACCS[epoch,0])
 
 
         # Check Test Performance
-        inds = np.random.permutation(gen.numTestImgs)
-        testIms, testLabs = gen.createBatch(inds,'testData')
-        ACCS[epoch,1] = accuracy.eval(feed_dict = {x: testIms, y_: testLabs,keep_prob:1.0})
+        inds = np.random.permutation(net.numTestImgs)
+        testIms, testLabs = net.createBatch(inds,'TestData')
+        ACCS[epoch,1] = net.accuracy.eval(feed_dict = {net.x: testIms, net.y_: testLabs, net.keep_prob:1.0})
         print('Testing accuracy after epoch ',epoch+1, ' = ', ACCS[epoch,1])
-
 
 
         # Feedback based decay of LR
         # Divide LR by 10 whenever there was not improvement 
-
         if epoch > nextTest and learningRate > 1e-8 and np.mean(ACCS[epoch-(step//2):epoch,
             1]) < np.mean(ACCS[epoch-step:epoch-(step//2),1]) + threshold:
 
@@ -84,12 +86,3 @@ with tf.Session() as session:
             nextTest = epoch + 25
             print('New Learning Rate = ', learningRate)
    
-
-        if epoch>0 and epoch % 100 == 0:
-            saver.save(session, "./"+netName+"/weights.ckpt",global_step=epoch)
-            np.savetxt('./'+netName+'/Accuracy.txt',ACCS)
-            print('Weights and Accuracies saved')
-
-    saver.save(session, "./"+netName+"/weights.ckpt",global_step=epoch)
-    np.savetxt('./'+netName+'/AccuracyFinal.txt',ACCS)
-    print('DONE')

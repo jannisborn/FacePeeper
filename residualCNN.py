@@ -163,7 +163,7 @@ class RESNET():
             img = np.fliplr(img) if np.random.randint(2) else img
 
             # Rotate randomly 
-            dg = np.random.randint(0,15) if np.random.randint(2) else -np.random.randint(0,15)
+            dg = np.random.randint(0,10) if np.random.randint(2) else -np.random.randint(0,10)
             img = misc.imrotate(img, dg)
             
             batchP[ind] = img
