@@ -12,7 +12,11 @@ from tensorflow.core.protobuf import saver_pb2 # We prefer this saver structure
 class RESNET():
 
 
-    def __init__(self, task, direc):
+    def __init__(self, task, direc=None):
+        if task=='GENDER' and direc is None:
+            self.shape = [112, 112, 3]
+            self.classes = 2
+            return
 
         # Weights should be located in the main location from which the testFile is executed that imports this class
         self.weights = "./weights.ckpt"

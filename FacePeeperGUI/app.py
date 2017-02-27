@@ -9,7 +9,9 @@ import numpy as np
 import time
 import io
 import backend.mockup as mockup
+import backend.main as backend
 from backend.GUI_prep import *
+from backend.residualCNN import *
 
 async_mode = None
 
@@ -70,7 +72,7 @@ def classifyImage(imageID):
 
     img = skimage.io.imread(request.files['file'])
 
-    imgCropped = GUI_prep(img)
+    imgCropped = backend.cropp(img)
     if(imgCropped is None):
         resp = flask.jsonify({'message': 'We could not detect exactly one face in your image'})
         resp.status_code = 400
@@ -81,7 +83,7 @@ def classifyImage(imageID):
     freshImages.append(imageHash)
     # rember the hash, so that we can delete it if it is to old
 
-    label = mockup.classifyImage(imgCropped)
+    label = backend.classify(imgCropped)
     # at the moment our classifier doesn't actually work, so it is mocked up
 
     answer = {'label': label}
@@ -114,7 +116,7 @@ def correctClassification(imageID):
 @app.route('/api/actorList')
 def getActorList():
     """return list of all actors"""
-    return flask.jsonify(mockup.getActorList())
+    return flask.jsonify(backend.getActorList())
 
 @app.route('/api/actorInfo/<name>')
 def actorInfoByName(name):
