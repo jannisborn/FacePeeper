@@ -1,24 +1,29 @@
+# This class implements our 9-layer CNN with 3 residual layers
 
-# This class implements our final, 9-layer CNN with 3 residual layers
+# Load Packages
+import tensorflow as tf
+import numpy as np
+import os
+from scipy import misc
+import time
+from tensorflow.examples.tutorials.mnist import input_data # for MNIST example
+from tensorflow.core.protobuf import saver_pb2 # We prefer this saver structure
 
 class RESNET():
 
 
-    def __init__(self, task):
-
-         # Load Packages
-        import tensorflow as tf
-        import numpy as np
-        import os
-        from scipy import misc
-        import time
-        from tensorflow.examples.tutorials.mnist import input_data # for MNIST example
-        from tensorflow.core.protobuf import saver_pb2 # We prefer this saver structure
-
+    def __init__(self, task, direc):
 
         # Weights should be located in the main location from which the testFile is executed that imports this class
-        
         self.weights = "./weights.ckpt"
+
+        # Infer your path
+        if direc == 'same':
+            self.path = os.getcwd()
+        elif direc == 'below':
+            self.path = os.path.abspath(os.path.join('./', os.pardir))
+
+        self.task = task
 
 
         # Task initialization
@@ -37,11 +42,11 @@ class RESNET():
             self.classes = 10
 
             # Workaround to load Images on the fly
-            trainFiles = os.listdir("TrainData/")
+            trainFiles = os.listdir(self.path+"/TrainData/")
             self.trainFiles = [t for t in trainFiles if t[0] != '.' ]
             self.numTrainImgs = len(self.trainFiles)
 
-            testFiles = os.listdir("TestData/")
+            testFiles = os.listdir(self.path+"/TestData/")
             self.testFiles = [t for t in testFiles if t[0] != '.']
             self.numTestImgs = len(self.testFiles)
 
@@ -58,11 +63,11 @@ class RESNET():
             self.women = [0, 2, 4, 6, 8]
 
             # Workaround to load Images on the fly
-            trainFiles = os.listdir("TrainData/")
+            trainFiles = os.listdir(self.path+"/TrainData/")
             self.trainFiles = [t for t in trainFiles if t[0] != '.' ]
             self.numTrainImgs = len(self.trainFiles)
 
-            testFiles = os.listdir("TestData/")
+            testFiles = os.listdir(self.path+"/TestData/")
             self.testFiles = [t for t in testFiles if t[0] != '.']
             self.numTestImgs = len(self.testFiles)
 
@@ -99,7 +104,7 @@ class RESNET():
         # Load images and labels one by one
         for counter,imgInd in enumerate(indices):
 
-            images[counter,:,:,:] = misc.imread(path + files[imgInd])
+            images[counter,:,:,:] = misc.imread(self.path + '/' + batchType + '/' + files[imgInd])
 
             if self.task == 'GENDER':
                 labels[counter] = [1,0] if int(files[imgInd][0]) in self.women else [0,1]
@@ -136,8 +141,8 @@ class RESNET():
         # Restore PCA results that has been performed beforehand on entire dataset
         # For color augmentation
 
-        self.eigenvalues = np.loadtxt('eigenvalues.txt')
-        self.eigenvectors = np.loadtxt('eigenvectors.txt')
+        self.eigenvalues = np.loadtxt(self.path+'/eigenvalues.txt')
+        self.eigenvectors = np.loadtxt(self.path+'/eigenvectors.txt')
 
         batchSize = batch.shape[0]
 
@@ -198,15 +203,15 @@ class RESNET():
 
         # This function creates the network
 
-        x = tf.placeholder(tf.float32, shape=[None, self.shape[0], self.shape[1], self.shape[2]])
-        y_ = tf.placeholder(tf.float32, shape=[None, self.classes])
-        lr = tf.placeholder(tf.float32)
-        keep_prob = tf.placeholder(tf.float32)
+        self.x = tf.placeholder(tf.float32, shape=[None, self.shape[0], self.shape[1], self.shape[2]])
+        self.y_ = tf.placeholder(tf.float32, shape=[None, self.classes])
+        self.lr = tf.placeholder(tf.float32)
+        self.keep_prob = tf.placeholder(tf.float32)
 
         # For "global normalization" used with convolutional
         #   filters with shape [batch, height, width, depth], pass axes=[0, 1, 2].
-        mean, var = tf.nn.moments(x, [0, 1, 2])
-        image = tf.nn.batch_normalization(x, mean, var, None, None, 1e-3)
+        mean, var = tf.nn.moments(self.x, [0, 1, 2])
+        image = tf.nn.batch_normalization(self.x, mean, var, None, None, 1e-3)
 
 
 
@@ -225,7 +230,7 @@ class RESNET():
 
         W_conv3 = self.weight_variable([3,3,64,64])
         b_conv3 = self.bias_variable([64])
-        activation = conv2d(h_conv2, W_conv3, 1, 1) + b_conv3
+        activation = self.conv2d(h_conv2, W_conv3, 1, 1) + b_conv3
         residual = activation + h_conv1
         h_conv3 = tf.nn.relu(activation)
 
@@ -264,27 +269,28 @@ class RESNET():
         h_conv9 = tf.nn.relu(activation)
 
         # Image size has been cutted down to a quarter
-        W_fc1 = self.weight_variable([(self.shape[0]/4)*(self.shape[1]/4)*128, 1024])
+        W_fc1 = self.weight_variable([(self.shape[0]//4)*(self.shape[1]//4)*128, 1024])
         b_fc1 = self.bias_variable([1024])
-        h_pool2_flat = tf.reshape(h_conv8, [-1, (self.shape[0]/4)*(self.shape[1]/4)*128])
+        h_pool2_flat = tf.reshape(h_conv8, [-1, (self.shape[0]//4)*(self.shape[1]//4)*128])
 
 
         h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
-        h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
+        h_fc1_drop = tf.nn.dropout(h_fc1, self.keep_prob)
 
         W_fc2 = self.weight_variable([1024, self.classes])
         b_fc2 = self.bias_variable([self.classes])
 
         y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
-        OUT = tf.nn.softmax(y_conv)
+        self.OUT = tf.nn.softmax(y_conv)
 
         # Readout functions
 
-        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
-        self.train_step = tf.train.AdamOptimizer(lr).minimize(self.cross_entropy)
-        correct_prediction = tf.equal(tf.argmax(OUT,1), tf.argmax(y_,1))
+        self.cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.y_, logits=y_conv))
+        self.train_step = tf.train.AdamOptimizer(self.lr).minimize(self.cross_entropy)
+        correct_prediction = tf.equal(tf.argmax(self.OUT,1), tf.argmax(self.y_,1))
         self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
 
 
 
