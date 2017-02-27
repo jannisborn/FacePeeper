@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FacePeeper</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="http://spin.js.org/spin.min.js"></script>
+    <script type="text/javascript" src="/static/script.js"></script>
+</head>
+<body>
+<datalist id="actors_list">
+</datalist>
+<!-- <a href="static/testSt.html" > my test ok </a> <br> -->
+<!-- <a href="#" id="test">test Text</a> -->
+<!-- <p id="tohide"> blabla this ## should go away</p> -->
+<!-- <button id="send"> sent something</button> -->
+
+<!-- <p id="result"> result will be here </p> -->
+
+
+<!-- <form id="file-form">
+  <input type="file" id="file-select" accept="image/*">
+  <button id="upload-button">Upload</button>
+</form>
+ -->
+ <a href="api/actorList">ugly list of all actors</a>
+<div id="content_window">
+    <h1> FacePeeper </h1>
+<div class="horizontal_center"><div id="dropzone"> <img id="preview_img" src=""><div class="centerer"><p id="help_text">Drag Image Here!</p></div></div></div>
+<br>
+
+<div id="actor_info">
+
+
+<div id="correction_selector"><input type="text" id="actor_options" list="actors_list" placeholder="Enter correct actor">
+
+<button>Send</button></div>
+
+<div class="normal_title normal_display"><h2 id="actor_name"></h2>
+<span id="icon_buttons">
+<svg version="1.1" class="icon" id="Edit" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
+<path class="icon_path" d="M17.561,2.439c-1.442-1.443-2.525-1.227-2.525-1.227L8.984,7.264L2.21,14.037L1.2,18.799l4.763-1.01l6.774-6.771
+    l6.052-6.052C18.788,4.966,19.005,3.883,17.561,2.439z M5.68,17.217l-1.624,0.35c-0.156-0.293-0.345-0.586-0.69-0.932
+    c-0.346-0.346-0.639-0.533-0.932-0.691l0.35-1.623l0.47-0.469c0,0,0.883,0.018,1.881,1.016c0.997,0.996,1.016,1.881,1.016,1.881
+    L5.68,17.217z"/>
+</svg>
+<!-- <svg version="1.1" class="icon" id="Check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">
+<path class="icon_path" d="M8.294,16.998c-0.435,0-0.847-0.203-1.111-0.553L3.61,11.724c-0.465-0.613-0.344-1.486,0.27-1.951
+    c0.615-0.467,1.488-0.344,1.953,0.27l2.351,3.104l5.911-9.492c0.407-0.652,1.267-0.852,1.921-0.445
+    c0.653,0.406,0.854,1.266,0.446,1.92L9.478,16.34c-0.242,0.391-0.661,0.635-1.12,0.656C8.336,16.998,8.316,16.998,8.294,16.998z"/>
+</svg> -->
+</span></div>
+
+<div>
+<p class="normal_display" id="actor_text"></p>
+
+
+
+
+<!-- font by http://www.entypo.com/
+ -->
+
+<!-- <div class="col2button"><button>test</button>
+<button>test</button><button>test</button><button>test</button><button>test</button>
+    <div>
+ -->
+
+
+</div>
+</div>
+<!-- <button id="redirect"> redirect </button> -->
+</body>
+</html>
