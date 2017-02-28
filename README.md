@@ -51,7 +51,7 @@ task where we achieve 96.4% on the test dataset.
   * Please consider, that for the GenderClassification we used once a traditional and once an augmented dataset (according to
   [Krizhevsky et al. ImageNet Classification with Deep Convolutional Neural Networks (2012)] 
   (https://www.nvidia.cn/content/tesla/pdf/machine-learning/imagenet-classification-with-deep-convolutional-nn.pdf)). You can
-  specify which version/weights you want to use via a Boolean at the beginning of the files.
+  specify which version/weights you want to use via a Boolean at the beginning of the training file.
 - The **FacePeeperGUI** folder provides the code for the interactive frontend where a user can a) upload and classify any image
 (given a single face is found) and b) correct misclassifications of the network. It is implemented in a combination
 of Python, HTML and JavaScript and the webserver can be made temporarily available via Amazon Web Services (AWS) upon request.
