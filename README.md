@@ -43,7 +43,7 @@ by means of the CNN in residualCNN.py. They have very similar structures, each c
 performance). They also contain performance visualization (.pdf) based on the raw performance files (.txt). The initial task,
 identitiy classification could not be solved properly although learning slowly began after some time (and that only after reducing
 depth of the network). We verified the soundness of the network by classifying the MNIST dataset where we achieved a test 
-accuracy of 99.59%. Subsequently, we used a subset of the 400-class celebrity dataset to train the network on gender classifcation
+accuracy of 99.56%. Subsequently, we used a subset of the 400-class celebrity dataset to train the network on gender classifcation
 task where we achieve 96.4% on the test dataset.
   * To restore the trained networks the weights can be found on [Dropbox] (https://www.dropbox.com/sh/sfc1he6spgq4fv9/AAAZ2nrfESVxIHC6rQhVAfkma?dl=0)
   (files too large for Git)
