@@ -44,7 +44,7 @@ def genderization(img,label=None):
 
 		# Restore the weights
 		saver = tf.train.Saver(tf.trainable_variables(),write_version = saver_pb2.SaverDef.V1)
-		saver.restore(session, path+"weightsGenderWithAug.ckpt")
+		saver.restore(session, path+"weightsGender.ckpt")
 
 		# Distinguish the two usecases 
 		if label == None:
@@ -55,18 +55,19 @@ def genderization(img,label=None):
 
 			session.run(net.train_step,feed_dict={net.x: img, net.y_: label.reshape([1,2]) ,net.keep_prob: 1.0, net.lr:0.004})
 			result = net.OUT.eval(feed_dict={net.x:img, net.keep_prob:1.0})
-			saver.save(session, path+"weightsGenderWithAug.ckpt")
+			saver.save(session, path+"weightsGender.ckpt")
 
 
 
 	tf.reset_default_graph()
 	return result
 
-'''# Test run
+# Test run
 from scipy import misc
 import numpy as np
 imP = os.path.expanduser('~/documents/FacePeeper/TestData/4_159.jpg')
 img = misc.imread(imP)
-a = genderization(img,np.array([0,1]))'''
-
+print(genderization(img))
+a = genderization(img,np.array([0,1]))
+print(a)
 

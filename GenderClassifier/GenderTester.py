@@ -1,9 +1,6 @@
 # Test Gender task
 # We used this file to test our network on the gender task
 
-# Here you can specify whether you want to see the 
-augmentation = False
-
 # This file is exactly the same as IdentityTester apart from line 22 where task=Gender instead of task=Identity is used
 
 # Execute this file while being in the directory (not from parent directory e.g.)
@@ -23,12 +20,10 @@ net = RESNET(task='GENDER',direc='below')
 net.network()
 
 
-### ONLY FOR TESTING, NOT FOR RETRAINING (variables not stored)
-
 with tf.Session() as session:
 
     saver = tf.train.Saver(tf.trainable_variables(),write_version = saver_pb2.SaverDef.V1)
-    saver.restore(session, "./weightsGenderWithAug.ckpt") if augmentation else saver.restore(session, "./weightsGenderNoAug.ckpt")
+    saver.restore(session, "./weightsGender.ckpt") 
 
 
     # Performance on training data

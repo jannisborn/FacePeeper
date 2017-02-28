@@ -2,7 +2,7 @@
 # This file we used to train our network on the gender task
 
 # Switch this off if you don't want the images to be augmented before feeded into the net
-augmentation = False
+augmentation = True 
 
 # This file is exactly the same as GenderTrainer apart from line 20 where task=Identity instead of task=Gender is used
 
