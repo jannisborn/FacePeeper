@@ -45,6 +45,8 @@ def updateClassification(img, txtLabel):
 
 	return "{} ({:2.0%})".format(number2name[label], accuracy[label])
 
+def cleanup():
+	closseSession()
 
 number2name, name2number = getActorDicts()
 print(number2name)

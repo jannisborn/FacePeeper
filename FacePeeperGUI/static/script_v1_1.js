@@ -66,12 +66,13 @@ function enterCorrectionMode(){
 function sendCorrection(){
         var myNewName = $("#actor_options").val();
         if(-1 != $.inArray(myNewName, globalActorList)){ 
+	    spinner.spin(document.getElementById('dropzone'));
             $.post("/api/correctClassification/"+sessionStorage.currentImageId,
                 {newName: myNewName},
                 function(data,status){
                     if(status=="success"){
                         alert("We retrained our clsassifier with your correction once. Here is what it says now.");
-                        displayClassificationResult(answer);
+                        displayClassificationResult(data);
                     }
                     else{
                         alert("We couldn't update the classifier: " + data.message + " status: "+ status)

@@ -1,5 +1,5 @@
-
 import tensorflow as tf
+import numpy as np
 from tensorflow.core.protobuf import saver_pb2
 
 # This file lies in the same folder like our network
@@ -14,7 +14,17 @@ global net
 net = RESNET(task='GENDER',direc=None)
 net.network()
 
-def genderization(img, lagel=None):
+global session
+session = tf.Session()
+global saver
+saver = tf.train.Saver(tf.trainable_variables(), write_version = saver_pb2.SaverDef.V1)
+
+session.run(tf.global_variables_initializer())
+
+# Restore the weights
+saver.restore(session, path+"weightsGender.ckpt")
+
+def genderization(img, intLabel=None):
 	'''
 	This function provides the interface between the webserver and the network.
 	It is called from the webserver for two different usecases:
@@ -29,6 +39,8 @@ def genderization(img, lagel=None):
 			new prediction of the network in the same format like in 1.).
 			Thus the user can verify the effect of training the network on that picture.		
 	'''
+	global session, saver
+	
 
 
 	# Error handling
@@ -40,27 +52,28 @@ def genderization(img, lagel=None):
 	# Network expects a batch.
 	img = img.reshape([1,112,112,3])
 
-	with tf.Session() as session:
 
-		session.run(tf.global_variables_initializer())
+	# Distinguish the two usecases 
+	if intLabel == None:
+		
+		result = net.OUT.eval(feed_dict={net.x:img, net.keep_prob:1.0}, session=session)
 
-		# Restore the weights
-		saver = tf.train.Saver(tf.trainable_variables(),write_version = saver_pb2.SaverDef.V1)
-		saver.restore(session, path+"weightsGender.ckpt")
+	else:
+		label = np.zeros([1,2])
+		label[0, intLabel] = 1.0
 
-		# Distinguish the two usecases 
-		if label == None:
-			
-			result = net.OUT.eval(feed_dict={net.x:img, net.keep_prob:1.0})
-
-		else:
-
-			session.run(net.train_step,feed_dict={net.x: img, net.y_: label.reshape([1,2]) ,net.keep_prob: 1.0, net.lr:0.004})
-			result = net.OUT.eval(feed_dict={net.x:img, net.keep_prob:1.0})
-			saver.save(session, path+"weightsGenderWithAug.ckpt")
+		session.run(net.train_step,feed_dict={net.x: img, net.y_: label.reshape([1,2]) ,net.keep_prob: 1.0, net.lr:0.004})
+		result = net.OUT.eval(feed_dict={net.x:img, net.keep_prob:1.0}, session=session)
+		saver.save(session, path+"weightsGender.ckpt")
 
 
 
 	tf.reset_default_graph()
 	return result
 
+
+def closseSession():
+	global session
+	saver.save(session, path+"weightsGender.ckpt")
+	session.close()
+	print("cleanup genderization")

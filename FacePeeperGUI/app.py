@@ -171,6 +171,8 @@ if __name__ == '__main__':
     cleanupImageBase()
     Flask.run(app, debug=False)
     cleanUpTimer.cancel()
+    backend.cleanup()
     print("ended gracefully")
+	
 
 
