@@ -46,7 +46,7 @@ def genderization(img, lagel=None):
 
 		# Restore the weights
 		saver = tf.train.Saver(tf.trainable_variables(),write_version = saver_pb2.SaverDef.V1)
-		saver.restore(session, path+"weightsGenderWithAug.ckpt")
+		saver.restore(session, path+"weightsGender.ckpt")
 
 		# Distinguish the two usecases 
 		if label == None:
