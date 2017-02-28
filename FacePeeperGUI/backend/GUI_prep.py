@@ -18,7 +18,7 @@ def GUI_prep(img):
 
 	# If image is greyscale, fill the channels up
 	if len(img.shape) == 2:
-		imgNew = np.zeros((a.shape[0],a.shape[1],3))
+		imgNew = np.zeros((img.shape[0],img.shape[1],3))
 		for ind in range(3):
 			imgNew[:,:,ind] = img
 		img = imgNew

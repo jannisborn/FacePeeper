@@ -178,5 +178,11 @@ function sendCorrection(){
         var name = answer.label;
         // we display the info and allow editing
         displayActorInfo(name, true)
+	//console.log(sessionStorage.infoDisplayed);
+
+	if(sessionStorage.infoDisplayed != 'true'){
+		alert("Was our guess correct? If not you can change the result by clicking on the small pen.");
+		sessionStorage.infoDisplayed = 'true';
+	}
     }
 
