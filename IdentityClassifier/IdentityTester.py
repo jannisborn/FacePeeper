@@ -2,6 +2,7 @@
 # We used this file to test our network on the ability to differentiate the identity of 10 Hollywood celebrities
 # The task cannot be properly solved.
 
+# This file is exactly the same as GenderTester apart from line 20 where task=Identity instead of task=Gender is used
 
 # Execute this file while being in the directory (not from parent directory e.g.)
 
@@ -31,6 +32,7 @@ with tf.Session() as session:
     Inds = np.random.permutation(net.numTrainImgs)
     trainIms, trainLabs = net.createBatch(Inds, 'TrainData')
 
+    print()
     print('Training accuracy with dropout = ', net.accuracy.eval(feed_dict={net.x:trainIms, net.y_:trainLabs, net.keep_prob:0.5}))
     print('Training accuracy without dropout = ', net.accuracy.eval(feed_dict={net.x:trainIms, net.y_:trainLabs, net.keep_prob:1.0}))
 
@@ -39,6 +41,8 @@ with tf.Session() as session:
     testIms, testLabs = net.createBatch(Inds,'TestData')
 
     print('Testing accuracy = ', net.accuracy.eval(feed_dict={net.x:testIms, net.y_:testLabs, net.keep_prob:1.0}))
+    print()
+
 
 
 

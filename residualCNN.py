@@ -141,8 +141,8 @@ class RESNET():
         # Restore PCA results that has been performed beforehand on entire dataset
         # For color augmentation
 
-        self.eigenvalues = np.loadtxt(self.path+'/eigenvalues.txt')
-        self.eigenvectors = np.loadtxt(self.path+'/eigenvectors.txt')
+        self.eigenvalues = np.loadtxt(self.path+'/Helper/eigenvalues.txt')
+        self.eigenvectors = np.loadtxt(self.path+'/Helper/eigenvectors.txt')
 
         batchSize = batch.shape[0]
 
@@ -290,6 +290,8 @@ class RESNET():
         self.train_step = tf.train.AdamOptimizer(self.lr).minimize(self.cross_entropy)
         correct_prediction = tf.equal(tf.argmax(self.OUT,1), tf.argmax(self.y_,1))
         self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+
 
 
 

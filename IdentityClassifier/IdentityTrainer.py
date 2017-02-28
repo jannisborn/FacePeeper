@@ -1,9 +1,10 @@
-
 # Train Gender task
 # This file we used to train our network on the gender task
 
 # Switch this off if you don't want the images to be augmented before feeded into the net
 augmentation = False
+
+# This file is exactly the same as GenderTrainer apart from line 20 where task=Identity instead of task=Gender is used
 
 # Execute this file while being in the GenderClassifier directory (not from parent directory e.g.)
 
@@ -86,14 +87,14 @@ with tf.Session() as session:
             nextTest = epoch + 25
             print('New Learning Rate = ', learningRate)
 
-        if epoch % 100 == 0:
+        if epoch > 0 and epoch % 100 == 0:
 
             saver.save(session, "./weights.ckpt",global_step=epoch)
             np.savetxt('./Accuracy.txt',ACCS)
-            print('DONE')
 
 
 saver.save(session, "./weights.ckpt",global_step=epoch)
 np.savetxt('./Accuracy.txt',ACCS)
 print('DONE')
    
+

@@ -1,9 +1,10 @@
-
 # Train Gender task
 # This file we used to train our network on the gender task
 
 # Switch this off if you don't want the images to be augmented before feeded into the net
 augmentation = True
+
+# This file is exactly the same as IdentityTrainer apart from line 22 where task=Gender instead of task=Identity is used
 
 # Execute this file while being in the GenderClassifier directory (not from parent directory e.g.)
 
@@ -86,3 +87,4 @@ with tf.Session() as session:
             nextTest = epoch + 25
             print('New Learning Rate = ', learningRate)
    
+
