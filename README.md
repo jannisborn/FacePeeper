@@ -33,8 +33,7 @@ classification the user has the option to provide the correct label and retrain 
 
 ## Guideline
 - The **Crawler** folder contains the code necessary to crawl the images from IMDB
-- The core element of this project, the Residual Convolutional Neuronal Network, can be found in the main directory as 
-**residualCNN.py**.
+- The core element of this project, a class called *RESNET()*, that implements the Residual Convolutional Neuronal Network, can be found in the main directory within **residualCNN.py**.
 - An extensive report of the project can be found in *report.pdf* 
 - The network is implemented in Tensorflow (as class) and allows access from the folders **GenderClassifier**, 
 **IdentityClassifier** and **MNIST_Classifier**. These three folders essentially vary only according to the task they solve
