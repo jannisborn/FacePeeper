@@ -2,7 +2,7 @@
 # We used this file to test our network on the MNIST task
 
 # Switch this off if you don't want the images to be augmented before feeded into the net
-augmentation = True
+augmentation = False
 
 # Execute this file while being in the MNIST directory (not from parent directory e.g.)
 
@@ -28,7 +28,7 @@ net.network()
 
 
 # Hyperparameter
-epochs = 100
+epochs = 101
 batchSize = 50
 batchesPerEpoch = mnist.train.images.shape[0] // batchSize
 
@@ -94,11 +94,13 @@ with tf.Session() as session:
 			nextTest = epoch + 10
 			print('New Learning Rate = ', learningRate)
 
-	saver = tf.train.Saver(tf.trainable_variables(),write_version = saver_pb2.SaverDef.V1)
-	saver.save(session, "./weights.ckpt",global_step=epoch)
+		if epoch % 10 == 0:
 
+			saver = tf.train.Saver(tf.trainable_variables(),write_version = saver_pb2.SaverDef.V1)
+			saver.save(session, "./weights.ckpt",global_step=epoch)
 
+			np.savetxt('ACC_New.txt',ACCS)
 
-# Check Test Performance		 
-print('Testing accuracy = ', net.accuracy.eval(feed_dict = {net.x: testImgs, net.y_: testLabels, net.keep_prob:1.0}))
+			# Check Test Performance		 
+			print('Testing accuracy = ', net.accuracy.eval(feed_dict = {net.x: testImgs, net.y_: testLabels, net.keep_prob:1.0}))
 

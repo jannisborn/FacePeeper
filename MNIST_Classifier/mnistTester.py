@@ -53,6 +53,16 @@ with tf.Session() as session:
     print()
     print('Train Accuracy MNIST = ', np.mean(p))
 
+
+    # Same for evaluation  set
+    size = mnist.validation.images.shape[0]
+    testImgs = np.empty([size,28,28,3])
+    for i in range(3):
+        testImgs[:,:,:,i] = mnist.validation.images.reshape([size,28,28])
+    print('Validation Accuracy MNIST ', net.accuracy.eval(feed_dict = {net.x: testImgs, 
+        net.y_: mnist.validation.labels, net.keep_prob:1.0}))
+
+
     # Same for test set
     size = mnist.test.images.shape[0]
     testImgs = np.empty([size,28,28,3])
@@ -60,6 +70,8 @@ with tf.Session() as session:
         testImgs[:,:,:,i] = mnist.test.images.reshape([size,28,28])
     print('Test Accuracy MNIST ', net.accuracy.eval(feed_dict = {net.x: testImgs, 
         net.y_: mnist.test.labels, net.keep_prob:1.0}))
+    print()
+
 
 
 
