@@ -108,8 +108,8 @@ def correctClassification(imageID):
 
 
     # the backend retraining doesn't actually work
-    mockup.updateClassification(pic, newName)
-    return flask.jsonify({"message":"py says success"})
+    newClassification = backend.updateClassification(pic, newName)
+    return flask.jsonify({"message":"py says success", "label":newClassification})
 
 
 
