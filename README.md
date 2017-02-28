@@ -1,5 +1,5 @@
 # FacePeeper
-A Deep Residual Convolutional Neural Network as Gender Classifier on an Interactive Webserver
+A Deep Residual Convolutional Neural Network as Gender Classifier on an Interactive Webserver. The network is implemented in [Tensorflow](https://www.tensorflow.org/) an optimized with [ADAM](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam)
 
 ## Project Specifications 
 - University of Osnabrück
@@ -16,9 +16,11 @@ A Deep Residual Convolutional Neural Network as Gender Classifier on an Interact
   * Scrapy
   * C++ Compiler (OS X, Linux or Visual Studios on Windows)
   * Webserver access
+  * Scipy
 - Partly (functionality verification)
   * Python 3.x
   * Tensorflow 1.x
+  * Scipy
   
  
  
