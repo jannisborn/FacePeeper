@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 # Scrapy settings for project project
 #
 # For simplicity, this file contains only settings considered important or
@@ -71,7 +73,8 @@ ITEM_PIPELINES = {
     'scrapy.pipelines.images.ImagesPipeline': 1
 }
 
-IMAGES_STORE = '/Users/areer/Desktop/project/images_store'
+CUR_DIR = os.path.dirname(os.path.realname(__file__))
+IMAGES_STORE = os.path.join(CUR_DIR, '..', 'images_store')
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
