@@ -35,17 +35,18 @@ def classify(img):
 	"""classifies the image"""
 	accuracy = genderization(img)[0]
 	label = np.argmax(accuracy)
-	print("~~~~~~~~~~Label: {}".format(label))
 	return "{} ({:2.0%})".format(number2name[label], accuracy[label])
 	
 
-def updateClassification(img, label):
-	print(label)
-	#plt.ion()
-	#plt.imshow(img)
-	#plt.show()
-	#plt.pause(1)
+def updateClassification(img, txtLabel):
+	intTrainLabel = name2number[txtLabel] #TODO handle exception
+	accuracy = genderization(img, intTrainLabel)[0]
+	label = np.argmax(accuracy)
 
+	return "{} ({:2.0%})".format(number2name[label], accuracy[label])
+
+def cleanup():
+	closseSession()
 
 number2name, name2number = getActorDicts()
 print(number2name)

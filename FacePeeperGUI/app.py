@@ -108,8 +108,8 @@ def correctClassification(imageID):
 
 
     # the backend retraining doesn't actually work
-    mockup.updateClassification(pic, newName)
-    return flask.jsonify({"message":"py says success"})
+    newClassification = backend.updateClassification(pic, newName)
+    return flask.jsonify({"message":"py says success", "label":newClassification})
 
 
 
@@ -171,6 +171,8 @@ if __name__ == '__main__':
     cleanupImageBase()
     Flask.run(app, debug=False)
     cleanUpTimer.cancel()
+    backend.cleanup()
     print("ended gracefully")
+	
 
 
