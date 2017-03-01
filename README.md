@@ -1,6 +1,8 @@
 # FacePeeper
 A Deep Residual Convolutional Neural Network as Gender Classifier on an Interactive Webserver. The network is implemented in [Tensorflow](https://www.tensorflow.org/) an optimized with [ADAM](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam)
 
+![Alt text](https://github.com/dopexxx/FacePeeper/Helper/API.png "Training Progress")
+
 ## Project Specifications 
 - University of Osnabrück
 - Winter Term 2016/17
