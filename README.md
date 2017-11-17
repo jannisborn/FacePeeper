@@ -1,5 +1,5 @@
 # FacePeeper
-A Deep Residual Convolutional Neural Network as Gender Classifier on an Interactive Webserver. The network is implemented in [Tensorflow](https://www.tensorflow.org/) an optimized with [ADAM](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) 
+A Deep Residual Convolutional Neural Network as gender classifier on an interactive webserver. The network is implemented in [Tensorflow](https://www.tensorflow.org/) an optimized with [ADAM](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam) 
 
 ![alt text](Helper/API.png?raw=true "API in action")
 
@@ -14,7 +14,7 @@ A Deep Residual Convolutional Neural Network as Gender Classifier on an Interact
 ## Requirements
 - Full: 
   * Python 3.x
-  * Tensorflow 1.x (GPU access highly recommended)
+  * Tensorflow 1.x 
   * openCV
   * Scrapy
   * C++ Compiler (OS X, Linux or Visual Studios on Windows)
@@ -25,26 +25,23 @@ A Deep Residual Convolutional Neural Network as Gender Classifier on an Interact
   * Tensorflow 1.x
   * Scipy
   
+ Feel free to fork.
  
  
 ## Overview
 For this project we crawled pictures from ca. 400 celebrities from the Image Movie Database (IMDB). These images were 
 face-cropped and initially used to train a 33-layer Residual Convolutional Neural Network (according to 
 [He et al., Deep Residual Learning for Image Recognition (2015) ](https://arxiv.org/pdf/1512.03385.pdf)) to differentiate
-the identities of these 400 celebrities. Due to a) the complexity of this task and b) time constraints, we simplified the 
-architecture to a 9-layer residual CNN trained on a cross-individual gender classification. On the frontend, we provide
-a webserver on which a user verify the network's gender prediction of an arbitrary uploaded image. In case of wrong 
-classification the user has the option to provide the correct label and retrain the network.
+the identities of these 400 celebrities. Due to time constraints, we simplified the  architecture to a 9-layer residual CNN trained on a cross-individual gender classification. On the frontend, we provide an interative webserver on which a user verify the network's gender prediction of an arbitrary uploaded image. In case of wrong classification the user has the option to provide the correct label and retrain the network.
 
 ## Guideline
 - The **Crawler** folder contains the code necessary to crawl the images from IMDB
-- The core element of this project, a class called *RESNET()*, that implements the Residual Convolutional Neuronal Network, can be found in the main directory within **residualCNN.py**.
-- An extensive report of the project can be found in *REPORT.pdf* 
-- The network is implemented in Tensorflow (as class) and allows access from the folders **GenderClassifier**, 
-**IdentityClassifier** and **MNIST_Classifier**. These three folders essentially vary only according to the task they solve
-by means of the CNN in residualCNN.py. They have very similar structures, each containing a Trainer.py file 
+- The network implementation can be found in **residualCNN.py**.
+- An extensive report of the project is in *REPORT.pdf* 
+- The network is implemented in Tensorflow and allows access from the folders **GenderClassifier**, 
+**IdentityClassifier** and **MNIST_Classifier**, 3 exemplary tasks that can be solved with the network. They have very similar structures, each containing a Trainer.py file 
 (that trains on the particular task from scratch) and a Tester.py file (that restores our pretrained weights and tests model
-performance). They also contain performance visualization (.pdf) based on the raw performance files (.txt). The initial task,
+performance). They also output performance visualizations. The initial task,
 identitiy classification could not be solved properly although learning slowly began after some time (and that only after reducing
 depth of the network). We verified the soundness of the network by classifying the MNIST dataset where we achieved a test 
 accuracy of 99.56%. Subsequently, we used a subset of the 400-class celebrity dataset to train the network on gender classifcation
