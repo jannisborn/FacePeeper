@@ -46,12 +46,11 @@ identitiy classification could not be solved properly although learning slowly b
 depth of the network). We verified the soundness of the network by classifying the MNIST dataset where we achieved a test 
 accuracy of 99.56%. Subsequently, we used a subset of the 400-class celebrity dataset to train the network on gender classifcation
 task where we achieve 96.4% on the test dataset.
-  * To restore the trained networks the weights can be found on [Dropbox] (https://www.dropbox.com/sh/sfc1he6spgq4fv9/AAAZ2nrfESVxIHC6rQhVAfkma?dl=0)
+  * To restore the trained networks the weights can be found on [Dropbox] https://www.dropbox.com/sh/sfc1he6spgq4fv9/AAAZ2nrfESVxIHC6rQhVAfkma?dl=0)
   (files too large for Git)
   * For smooth execution, please place the weight file in the respective folder (e.g. weightsIdentity.ckpt in IdentityClassifier)
   * Please consider, that for the GenderClassification we used once a traditional and once an augmented dataset (according to
-  [Krizhevsky et al. ImageNet Classification with Deep Convolutional Neural Networks (2012)] 
-  (https://www.nvidia.cn/content/tesla/pdf/machine-learning/imagenet-classification-with-deep-convolutional-nn.pdf)). You can
+  [Krizhevsky et al. ImageNet Classification with Deep Convolutional Neural Networks (2012)](https://www.nvidia.cn/content/tesla/pdf/machine-learning/imagenet-classification-with-deep-convolutional-nn.pdf)). You can
   specify which version/weights you want to use via a Boolean at the beginning of the training file.
 - The **FacePeeperGUI** folder provides the code for the interactive frontend where a user can a) upload and classify any image
 (given a single face is found) and b) correct misclassifications of the network. It is implemented in a combination
